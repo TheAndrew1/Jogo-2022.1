@@ -5,6 +5,65 @@
 #include <string.h>
 #include "funcoes.h"
 
+void Atualizar_rank(rank players[], rank jogador)
+{
+	int i, subs = 0;
+
+	for (i = 0; i<num_players; i++)
+    {
+    	if(players[i].pontos == 0)
+    	{
+    		break;
+		}
+        else if(!strcmp(jogador.nome, players[i].nome)) //Compara o nome do jogador com os nomes do ranking
+        {
+        	if(jogador.pontos > players[i].pontos) //Se a nova pontuação for maior do que a registrada ele alterna
+        	{
+        		players[i].pontos = jogador.pontos;
+        		Organizar(players); //Reorganiza o ranking com a nova pontuação
+			}
+			subs = 1;
+        	break;
+		}
+    }
+    if(subs == 0 && jogador.pontos != 0)    //Se a variavel subs nao foi alterada e a pontuação do jogador não for 0 ele inclui no ranking
+    {
+    	Inserir(players, jogador);
+	}
+}
+
+void Inserir(rank players[], rank jogador)
+{
+	int i;
+
+	for (i = 0; i<num_players; i++)
+    {
+        rank aux;
+        if (jogador.pontos >= players[i].pontos)    //Compara pontuação do jogador com as do ranking
+        {
+    	    aux = players[i];
+            players[i] = jogador;
+            jogador = aux;
+       	}
+    }
+}
+
+void Organizar(rank players[])
+{
+	int i;
+
+	for (i = 0; i<num_players && players[i+1].pontos != 0; i++)
+    {
+        rank aux;
+        if (players[i].pontos <= players[i+1].pontos)   //Compara as pontuações do ranking
+        {
+    	    aux = players[i+1];
+            players[i+1] = players[i];
+            players[i] = aux;
+       	}
+    }
+}
+
 void Iniciar(rank *jogador)
 {
     int opcao;
@@ -21,6 +80,7 @@ void Iniciar(rank *jogador)
         
         do
         {
+        	system("cls");
             printf("Jogo esta em desenvolvimento , volte em breve!");
             printf("\n\nDigite 0 para retornar ao menu de opções.\n");
             scanf("%d", &opcao);
@@ -31,32 +91,14 @@ void Iniciar(rank *jogador)
         else
         {
             printf("\nDigite um comando válido\n");
-            system("pause");
+            Sleep(2000);
         }
         } while(opcao != 0);
 }
 
-void Ranking(rank players[], rank jogador)
+void Ranking(rank players[])
 {
     int opcao, i;
-    
-    if(jogador.pontos != 0)
-    {
-    	for (i = 0; i<num_players; i++)
-        	{
-           		 rank ref_for;
-            	if (jogador.pontos >= players[i].pontos)
-        	    {
-    	            strcpy(ref_for.nome, players[i].nome);
-                	strcpy(players[i].nome, jogador.nome);
-            	    strcpy(jogador.nome, ref_for.nome);
-        	            
-    	            ref_for.pontos = players[i].pontos;
-                	players[i].pontos = jogador.pontos;
-            	    jogador.pontos = ref_for.pontos;
-        	    }
-    	    }
-	}
 
     do
     {
@@ -113,7 +155,7 @@ void Historia()
         else
         {
             printf("\nDigite um comando válido\n");
-            system("pause");
+            Sleep(2000);
         }
         } while(opcao != 0);
 }
@@ -137,7 +179,7 @@ void Creditos()
         else
         {
             printf("\nDigite um comando válido\n");
-            system("pause");
+            Sleep(2000);
         }
         } while(opcao != 0);
 }

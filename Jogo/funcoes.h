@@ -11,12 +11,18 @@ typedef struct
 
 void Iniciar(rank *jogador);
 
-void Ranking(rank players[], rank jogador);
+void Ranking(rank players[]);
 
 void Historia();
 
 void Creditos();
 
 void textColor(int cor);
+
+void Atualizar_rank(rank players[], rank jogador);
+
+void Inserir(rank players[], rank jogador);
+
+void Organizar(rank players[]);
 
 #endif // FUNCOES_H_INCLUDED
